@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Credit card fraud detection tool (US)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+    :root {
+      --blue: #200bc0;
+      --blue-dark: #041151;
+      --gold: #d4a056;
+      --bg: #f8f5f2;
+      --card: #ffffff;
+      --text: #232323;
+      --muted: #7a7a7a;
+      --radius: 12px;
+      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 30px;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      text-align: center;
+      color: var(--blue);
+      margin-bottom: 8px;
+    }
+
+    p.sub {
+      text-align: center;
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 30px;
+    }
+
+    form {
+      background: var(--card);
+      padding: 30px;
+      max-width: 850px;
+      margin: auto;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border-left: 5px solid var(--blue);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--blue-dark);
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: var(--radius);
+      border: 2px solid #ddd;
+      font-size: 1rem;
+      transition: all 0.25s ease;
+      background: #fafafa;
+    }
+
+    input[type="number"]:focus {
+      border-color: var(--blue);
+      background: #fff;
+      box-shadow: 0 0 6px rgba(106, 27, 44, 0.3);
+      outline: none;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 25px;
+    }
+
+    input[type="submit"] {
+      background: var(--blue);
+      padding: 12px 25px;
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.25s ease, transform 0.1s ease;
+      border-bottom: 3px solid var(--blue-dark);
+    }
+
+    input[type="submit"]:hover {
+      background: var(--blue-dark);
+      transform: translateY(-2px);
+    }
+
+    h3.result {
+      margin-top: 30px;
+      max-width: 850px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 20px;
+      font-size: 1.3rem;
+      background: var(--card);
+      border-left: 5px solid var(--gold);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      color: var(--blue-dark);
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Credit card fraud detection tool (US)</h1>
+  <p class="sub">Introduce the parameters for credit card fraud detection </p>
+
+  <form action="/" method="post">
+    <div class="grid">
+
+      <div>
+        <label>Credit card number</label>
+        <input type="number" min="0" max="1e16" step="1" name="val1" required>
+      </div>
+
+      <div>
+        <label>Cardholder's age</label>
+        <input type="number" min="0" max="100" step="0.001" name="val3" required>
+      </div>
+
+      <div>
+        <label>Transaction hour</label>
+        <input type="number" min="0" max="23" step="1" name="val4" required>
+      </div>
+
+      <div>
+        <label>Transaction amount</label>
+        <input type="number" min="0" max="999999999999999" step="0.001" name="val5" required>
+      </div>
+
+      <div>
+      <label for="gender">Cardholder's gender</label>
+      <select id="gender" name="val2" required>
+      <option value=0>F</option>
+      <option value=1>M</option>
+      </select>
+      </div>
+
+      <div>
+        <label for="month">Transaction month</label>
+        <select id="month" name="val10" required>
+        <option value=1>January</option>
+        <option value=2>February</option>
+        <option value=3>March</option>
+        <option value=4>April</option>
+        <option value=5>May</option>
+        <option value=6>June</option>
+        <option value=7>July</option>
+        <option value=8>August</option>
+        <option value=9>September</option>
+        <option value=10>October</option>
+        <option value=11>November</option>
+        <option value=12>December</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="category">Category</label>
+        <select id="category" name="val6" required>
+        <option value=0>Entertainment</option>
+        <option value=1>Food & Dining</option>
+        <option value=2>Gas & Transport</option>
+        <option value=3>Grocery (online)</option>
+        <option value=4>Grocery (store)</option>
+        <option value=5>Health & Fitness</option>
+        <option value=6>Home</option>
+        <option value=7>Kids & Pets</option>
+        <option value=8>Miscellaneous (online)</option>
+        <option value=9>Miscellaneous (store)</option>
+        <option value=10>Personal care</option>
+        <option value=11>Shopping (online)</option>
+        <option value=12>Shopping (store)</option>
+        <option value=13>Travel</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="merchant">Merchant</label>
+        <select id="merchant" name="val13" required>
+          <option value="">-- Select merchant --</option>
+          {% for merchant, value in merchant_data.items() %}
+            <option value="{{ value }}">{{ merchant | replace("fraud_", "") }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- <div>
+        <label>Population of the city of transaction</label>
+        <input type="number" min="1" max="3000000" step="1" name="val7" required>
+      </div> -->
+
+      <div>
+        <label for="state">State</label>
+        <select id="state" name="val12" required>
+          <option value="">-- Select state --</option>
+          {% for state in city_state_data.keys() %}
+            <option value="{{ state }}">{{ state }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div>
+        <label for="city">City</label>
+        <select id="city" name="val11" required>
+          <option value="">-- Select city --</option>
+        </select>
+      </div>
+
+      <script>
+          const cityStateData = {{ city_state_data | tojson }};
+
+          const stateSelect = document.getElementById("state");
+          const citySelect  = document.getElementById("city");
+
+          stateSelect.addEventListener("change", function () {
+            const selectedState = this.value;
+
+            // Clear cities
+            citySelect.innerHTML = '<option value="">-- Select city --</option>';
+
+            if (selectedState && cityStateData[selectedState]) {
+              cityStateData[selectedState].forEach(city => {
+                const option = document.createElement("option");
+                option.value = city;
+                option.textContent = city;
+                citySelect.appendChild(option);
+              });
+            }
+          });
+        </script>
+
+      <!-- <div>
+        <label>Latitude</label>
+        <input type="number" min="20" max="67" step="0.0001" name="val8" required>
+      </div>
+
+      <div>
+        <label>Longitude</label>
+        <input type="number" min="-166" max="-66" step="0.0001" name="val9" required>
+      </div> -->
+
+      <!-- <div>
+        <label>Merchant's latitude</label>
+        <input type="number" min="19" max="67" step="0.0001" name="val10" required>
+      </div>
+
+      <div>
+        <label>Merchant's longitude</label>
+        <input type="number" min="-167" max="-66" step="0.0001" name="val11" required>
+      </div> -->
+
+    </div>
+
+    <div class="actions">
+      <input type="submit" value="Perform fraud analysis">
+    </div>
+  </form>
+
+  {% if prediction_fraud is not none %}
+    <h3 class="result">Prediction for fraud: {{ pred_fraud }}</h3>
+  {% endif %}
+
+  {% if prediction_type is not none %}
+    <h3 class="result">Prediction for type: {{ pred_type }}</h3>
+  {% endif %}
+
+</body>
+</html>

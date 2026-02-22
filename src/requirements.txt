@@ -1,0 +1,10 @@
+numpy
+pandas
+scikit-learn
+xgboost
+flask
+gunicorn
+imblearn
+statsmodels
+pysqlite3
+kagglehub
