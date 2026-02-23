@@ -4,35 +4,37 @@ from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler
 import numpy as np
 import json
 import os
+from pathlib import Path
 
-# Get project directory
-main_dir  = "/workspaces/final-project-csmb20"
-proj_dir  = "final-project-csmb20"
-model_dir = "models"
-templ_dir = "src/templates"
-json_dir  = "data/json files"
+app = Flask(__name__)
+# Root del proyecto (archivo actual está en /src)
+BASE_DIR = Path(__file__).resolve().parents[1]
 
-# Define app
-app = Flask(__name__) # app = Flask(__name__, template_folder=os.path.join(os.path.dirname(__file__), templ_dir))
+# Directorios
+main_dir  = str(BASE_DIR)
+proj_dir  = ""  # no se usa, se deja por compatibilidad
+model_dir = str(BASE_DIR / "models")
+templ_dir = str(BASE_DIR / "src" / "templates")
+json_dir  = str(BASE_DIR / "data" / "json files")
 
-# Load models
-fraud_model_path = os.path.join(main_dir,proj_dir,model_dir,"fraud_cc_forest_default_42.sav")
-type_model_path  = os.path.join(main_dir,proj_dir,model_dir,"fraud_type_xgb_default_42.sav")
+# Rutas de modelos (ejemplo)
+fraud_model_path = os.path.join(model_dir, "fraud_cc_forest_default_42.sav")
+type_model_path  = os.path.join(model_dir, "fraud_type_xgb_default_42.sav")
+
+# Rutas de JSONs
+city_dict_path        = os.path.join(json_dir, "json_city_mapping.json")
+state_dict_path       = os.path.join(json_dir, "json_state_mapping.json")
+city_state_dict_path  = os.path.join(json_dir, "json_city_state_mapping.json")
+city_pop_dict_path    = os.path.join(json_dir, "json_city_pop_mapping.json")
+city_lat_dict_path    = os.path.join(json_dir, "json_city_lat_mapping.json")
+city_long_dict_path   = os.path.join(json_dir, "json_city_long_mapping.json")
+merchant_dict_path    = os.path.join(json_dir, "json_merchant_mapping.json")
 
 with open(fraud_model_path, "rb") as f:
     model_fraud = load(f)
 
 with open(type_model_path, "rb") as t:
-    model_type = load(t)
-
-# Load large input dictionaries    
-city_dict_path        = os.path.join(main_dir,proj_dir,json_dir,"json_city_mapping.json")
-state_dict_path       = os.path.join(main_dir,proj_dir,json_dir,"json_state_mapping.json")
-city_state_dict_path  = os.path.join(main_dir,proj_dir,json_dir,"json_city_state_mapping.json")
-city_pop_dict_path    = os.path.join(main_dir,proj_dir,json_dir,"json_city_pop_mapping.json") 
-city_lat_dict_path    = os.path.join(main_dir,proj_dir,json_dir,"json_city_lat_mapping.json") 
-city_long_dict_path   = os.path.join(main_dir,proj_dir,json_dir,"json_city_long_mapping.json")
-merchant_dict_path    = os.path.join(main_dir,proj_dir,json_dir,"json_merchant_mapping.json") 
+    model_type = load(t)   # o pickle.load(t)
 
 with open(city_state_dict_path, "r") as cs:
     city_state_mapping_dict = json.load(cs)

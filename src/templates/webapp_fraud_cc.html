@@ -6,18 +6,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
     :root {
-      --blue: #200bc0;
-      --blue-dark: #041151;
-      --gold: #d4a056;
-      --bg: #f8f5f2;
-      --card: #ffffff;
-      --text: #232323;
-      --muted: #7a7a7a;
-      --radius: 12px;
-      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --bg-1: #0b1020;
+      --bg-2: #111a33;
+      --panel: rgba(255, 255, 255, 0.92);
+      --panel-strong: #ffffff;
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --accent: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --text: #0f172a;
+      --muted: #64748b;
+      --line: #dbe3ef;
+      --radius: 16px;
+      --radius-lg: 22px;
+      --shadow: 0 14px 40px rgba(2, 6, 23, 0.18);
+      --shadow-soft: 0 8px 22px rgba(15, 23, 42, 0.08);
+      --focus: 0 0 0 4px rgba(59, 130, 246, 0.16);
     }
 
     * { box-sizing: border-box; }
@@ -25,213 +33,549 @@
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
-      padding: 30px;
-      background: var(--bg);
+      min-height: 100vh;
       color: var(--text);
+      background:
+        radial-gradient(circle at 12% 12%, rgba(59,130,246,0.20), transparent 38%),
+        radial-gradient(circle at 88% 18%, rgba(34,197,94,0.15), transparent 35%),
+        linear-gradient(160deg, var(--bg-1), var(--bg-2));
+      padding: 28px 18px 40px;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 22px;
+      align-items: stretch;
+      margin-bottom: 22px;
+    }
+
+    .hero-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.90));
+      border: 1px solid rgba(255,255,255,0.5);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 26px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(6px);
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      right: -60px;
+      top: -60px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59,130,246,0.18), transparent 65%);
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--primary-dark);
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      border: 1px solid rgba(59,130,246,0.18);
+    }
+
+    .badge::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.14);
     }
 
     h1 {
-      font-size: 2rem;
-      font-weight: 600;
-      text-align: center;
-      color: var(--blue);
-      margin-bottom: 8px;
+      margin: 0 0 8px 0;
+      font-size: clamp(1.35rem, 2vw, 2rem);
+      line-height: 1.15;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.02em;
     }
 
     p.sub {
-      text-align: center;
-      font-size: 1rem;
+      margin: 0;
       color: var(--muted);
-      margin-bottom: 30px;
+      font-size: 0.97rem;
+      line-height: 1.5;
+      max-width: 62ch;
+    }
+
+    .hero-mini {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 180px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+      padding: 20px;
+    }
+
+    /* Decorative credit card (CSS only, no image) */
+    .credit-card-visual {
+      width: min(100%, 340px);
+      aspect-ratio: 1.58 / 1;
+      border-radius: 18px;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.26), transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(34,197,94,0.20), transparent 45%),
+        linear-gradient(135deg, #1e3a8a, #2563eb 45%, #0f172a 100%);
+      box-shadow:
+        0 14px 28px rgba(0,0,0,0.28),
+        inset 0 1px 0 rgba(255,255,255,0.22);
+      transform: rotate(-3deg);
+    }
+
+    .credit-card-visual::before,
+    .credit-card-visual::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.9;
+      filter: blur(0.2px);
+    }
+
+    .credit-card-visual::before {
+      width: 120px;
+      height: 120px;
+      right: 26px;
+      top: 28px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .credit-card-visual::after {
+      width: 80px;
+      height: 80px;
+      right: 54px;
+      top: 48px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .cc-chip {
+      position: absolute;
+      left: 24px;
+      top: 28px;
+      width: 42px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #fde68a, #eab308);
+      border: 1px solid rgba(255,255,255,0.4);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+    }
+
+    .cc-chip::before,
+    .cc-chip::after {
+      content: "";
+      position: absolute;
+      background: rgba(0,0,0,0.14);
+    }
+
+    .cc-chip::before {
+      width: 1px;
+      height: 100%;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+    }
+
+    .cc-chip::after {
+      height: 1px;
+      width: 100%;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .cc-brand {
+      position: absolute;
+      right: 24px;
+      top: 26px;
+      color: rgba(255,255,255,0.95);
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .cc-number {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      top: 82px;
+      color: rgba(255,255,255,0.95);
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      font-size: 1.02rem;
+      text-shadow: 0 1px 1px rgba(0,0,0,0.24);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .cc-footer {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: rgba(255,255,255,0.92);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .cc-footer span strong {
+      display: block;
+      margin-top: 4px;
+      letter-spacing: 0.04em;
+      font-size: 0.84rem;
+      color: white;
+      text-transform: none;
+      font-weight: 600;
     }
 
     form {
-      background: var(--card);
-      padding: 30px;
-      max-width: 850px;
-      margin: auto;
-      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.95));
+      border: 1px solid rgba(255,255,255,0.7);
+      padding: 22px;
+      border-radius: var(--radius-lg);
       box-shadow: var(--shadow);
-      border-left: 5px solid var(--blue);
+      backdrop-filter: blur(8px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    form::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), #60a5fa, #34d399);
+    }
+
+    .form-title {
+      margin: 2px 0 16px;
+      font-size: 1rem;
+      color: #0f172a;
+      font-weight: 700;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+    }
+
+    .field {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      box-shadow: var(--shadow-soft);
     }
 
     label {
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: var(--blue-dark);
-      margin-bottom: 5px;
       display: block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #1e293b;
+      margin-bottom: 8px;
+      line-height: 1.3;
     }
 
-    input[type="number"] {
+    input[type="number"],
+    select {
       width: 100%;
-      padding: 12px;
-      border-radius: var(--radius);
-      border: 2px solid #ddd;
-      font-size: 1rem;
-      transition: all 0.25s ease;
-      background: #fafafa;
+      padding: 11px 12px;
+      border-radius: 12px;
+      border: 1.6px solid #dbe3ef;
+      background: #f8fafc;
+      color: #0f172a;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color .2s ease, box-shadow .2s ease, background .2s ease, transform .05s ease;
+      outline: none;
     }
 
-    input[type="number"]:focus {
-      border-color: var(--blue);
-      background: #fff;
-      box-shadow: 0 0 6px rgba(106, 27, 44, 0.3);
-      outline: none;
+    input[type="number"]:focus,
+    select:focus {
+      border-color: #60a5fa;
+      background: #ffffff;
+      box-shadow: var(--focus);
+    }
+
+    input[type="number"]::placeholder {
+      color: #94a3b8;
     }
 
     .actions {
       display: flex;
       justify-content: center;
-      margin-top: 25px;
+      margin-top: 20px;
     }
 
     input[type="submit"] {
-      background: var(--blue);
-      padding: 12px 25px;
       border: none;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: #fff;
-      font-size: 1rem;
-      border-radius: var(--radius);
+      padding: 13px 22px;
+      min-width: 250px;
+      border-radius: 14px;
+      font-size: 0.98rem;
+      font-weight: 700;
       cursor: pointer;
-      font-weight: 600;
-      transition: background 0.25s ease, transform 0.1s ease;
-      border-bottom: 3px solid var(--blue-dark);
+      letter-spacing: 0.01em;
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.28);
+      transition: transform .12s ease, box-shadow .2s ease, filter .2s ease;
     }
 
     input[type="submit"]:hover {
-      background: var(--blue-dark);
       transform: translateY(-2px);
+      box-shadow: 0 14px 24px rgba(37, 99, 235, 0.34);
+      filter: brightness(1.03);
+    }
+
+    input[type="submit"]:active {
+      transform: translateY(0);
+    }
+
+    .results-wrap {
+      max-width: 1100px;
+      margin: 16px auto 0;
+      display: grid;
+      gap: 12px;
     }
 
     h3.result {
-      margin-top: 30px;
-      max-width: 850px;
-      margin-left: auto;
-      margin-right: auto;
-      padding: 20px;
-      font-size: 1.3rem;
-      background: var(--card);
-      border-left: 5px solid var(--gold);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      color: var(--blue-dark);
+      margin: 0;
+      padding: 16px 18px;
+      font-size: 1rem;
+      line-height: 1.4;
+      background: rgba(255,255,255,0.96);
+      border-radius: 14px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255,255,255,0.8);
+      color: #0f172a;
+      position: relative;
+      overflow: hidden;
+    }
+
+    h3.result::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 6px;
+      background: linear-gradient(180deg, var(--warning), #f97316);
+      border-radius: 14px 0 0 14px;
+    }
+
+    .result strong {
+      color: #111827;
+    }
+
+    .helper-note {
+      margin-top: 14px;
+      text-align: center;
+      color: rgba(255,255,255,0.82);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-mini {
+        min-height: 160px;
+      }
+
+      .credit-card-visual {
+        transform: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      body {
+        padding: 16px 12px 28px;
+      }
+
+      .hero-card,
+      form {
+        padding: 16px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      input[type="submit"] {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .cc-number {
+        font-size: 0.9rem;
+      }
     }
   </style>
 </head>
 
 <body>
-  <h1>Credit card fraud detection tool (US)</h1>
-  <p class="sub">Introduce the parameters for credit card fraud detection </p>
+  <div class="page">
 
-  <form action="/" method="post">
-    <div class="grid">
-
-      <div>
-        <label>Credit card number</label>
-        <input type="number" min="0" max="1e16" step="1" name="val1" required>
+    <section class="hero">
+      <div class="hero-card">
+        <div class="badge">Fraud Risk Screening</div>
+        <h1>Credit card fraud detection tool (US)</h1>
+        <p class="sub">Introduce the parameters for credit card fraud detection and run a quick prediction using your trained model.</p>
       </div>
 
-      <div>
-        <label>Cardholder's age</label>
-        <input type="number" min="0" max="100" step="0.001" name="val3" required>
+      <div class="hero-mini" aria-hidden="true">
+        <div class="credit-card-visual">
+          <div class="cc-chip"></div>
+          <div class="cc-brand">SecureCheck</div>
+          <div class="cc-number">•••• •••• •••• ••••</div>
+          <div class="cc-footer">
+            <span>Model<strong>Fraud Classifier</strong></span>
+            <span>Status<strong>Ready</strong></span>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <div>
-        <label>Transaction hour</label>
-        <input type="number" min="0" max="23" step="1" name="val4" required>
-      </div>
+    <form action="/" method="post">
+      <div class="form-title">Transaction input form</div>
 
-      <div>
-        <label>Transaction amount</label>
-        <input type="number" min="0" max="999999999999999" step="0.001" name="val5" required>
-      </div>
+      <div class="grid">
 
-      <div>
-      <label for="gender">Cardholder's gender</label>
-      <select id="gender" name="val2" required>
-      <option value=0>F</option>
-      <option value=1>M</option>
-      </select>
-      </div>
+        <div class="field">
+          <label>Credit card number</label>
+          <input type="number" min="0" max="1e16" step="1" name="val1" required>
+        </div>
 
-      <div>
-        <label for="month">Transaction month</label>
-        <select id="month" name="val10" required>
-        <option value=1>January</option>
-        <option value=2>February</option>
-        <option value=3>March</option>
-        <option value=4>April</option>
-        <option value=5>May</option>
-        <option value=6>June</option>
-        <option value=7>July</option>
-        <option value=8>August</option>
-        <option value=9>September</option>
-        <option value=10>October</option>
-        <option value=11>November</option>
-        <option value=12>December</option>
-        </select>
-      </div>
+        <div class="field">
+          <label>Cardholder's age</label>
+          <input type="number" min="0" max="100" step="0.001" name="val3" required>
+        </div>
 
-      <div>
-        <label for="category">Category</label>
-        <select id="category" name="val6" required>
-        <option value=0>Entertainment</option>
-        <option value=1>Food & Dining</option>
-        <option value=2>Gas & Transport</option>
-        <option value=3>Grocery (online)</option>
-        <option value=4>Grocery (store)</option>
-        <option value=5>Health & Fitness</option>
-        <option value=6>Home</option>
-        <option value=7>Kids & Pets</option>
-        <option value=8>Miscellaneous (online)</option>
-        <option value=9>Miscellaneous (store)</option>
-        <option value=10>Personal care</option>
-        <option value=11>Shopping (online)</option>
-        <option value=12>Shopping (store)</option>
-        <option value=13>Travel</option>
-        </select>
-      </div>
+        <div class="field">
+          <label>Transaction hour</label>
+          <input type="number" min="0" max="23" step="1" name="val4" required>
+        </div>
 
-      <div>
-        <label for="merchant">Merchant</label>
-        <select id="merchant" name="val13" required>
-          <option value="">-- Select merchant --</option>
-          {% for merchant, value in merchant_data.items() %}
-            <option value="{{ value }}">{{ merchant | replace("fraud_", "") }}</option>
-          {% endfor %}
-        </select>
-      </div>
+        <div class="field">
+          <label>Transaction amount</label>
+          <input type="number" min="0" max="999999999999999" step="0.001" name="val5" required>
+        </div>
 
-      <!-- <div>
-        <label>Population of the city of transaction</label>
-        <input type="number" min="1" max="3000000" step="1" name="val7" required>
-      </div> -->
+        <div class="field">
+          <label for="gender">Cardholder's gender</label>
+          <select id="gender" name="val2" required>
+            <option value=0>F</option>
+            <option value=1>M</option>
+          </select>
+        </div>
 
-      <div>
-        <label for="state">State</label>
-        <select id="state" name="val12" required>
-          <option value="">-- Select state --</option>
-          {% for state in city_state_data.keys() %}
-            <option value="{{ state }}">{{ state }}</option>
-          {% endfor %}
-        </select>
-      </div>
+        <div class="field">
+          <label for="month">Transaction month</label>
+          <select id="month" name="val10" required>
+            <option value=1>January</option>
+            <option value=2>February</option>
+            <option value=3>March</option>
+            <option value=4>April</option>
+            <option value=5>May</option>
+            <option value=6>June</option>
+            <option value=7>July</option>
+            <option value=8>August</option>
+            <option value=9>September</option>
+            <option value=10>October</option>
+            <option value=11>November</option>
+            <option value=12>December</option>
+          </select>
+        </div>
 
-      <div>
-        <label for="city">City</label>
-        <select id="city" name="val11" required>
-          <option value="">-- Select city --</option>
-        </select>
-      </div>
+        <div class="field">
+          <label for="category">Category</label>
+          <select id="category" name="val6" required>
+            <option value=0>Entertainment</option>
+            <option value=1>Food & Dining</option>
+            <option value=2>Gas & Transport</option>
+            <option value=3>Grocery (online)</option>
+            <option value=4>Grocery (store)</option>
+            <option value=5>Health & Fitness</option>
+            <option value=6>Home</option>
+            <option value=7>Kids & Pets</option>
+            <option value=8>Miscellaneous (online)</option>
+            <option value=9>Miscellaneous (store)</option>
+            <option value=10>Personal care</option>
+            <option value=11>Shopping (online)</option>
+            <option value=12>Shopping (store)</option>
+            <option value=13>Travel</option>
+          </select>
+        </div>
 
-      <script>
+        <div class="field">
+          <label for="merchant">Merchant</label>
+          <select id="merchant" name="val13" required>
+            <option value="">-- Select merchant --</option>
+            {% for merchant, value in merchant_data.items() %}
+              <option value="{{ value }}">{{ merchant | replace("fraud_", "") }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- <div class="field">
+          <label>Population of the city of transaction</label>
+          <input type="number" min="1" max="3000000" step="1" name="val7" required>
+        </div> -->
+
+        <div class="field">
+          <label for="state">State</label>
+          <select id="state" name="val12" required>
+            <option value="">-- Select state --</option>
+            {% for state in city_state_data.keys() %}
+              <option value="{{ state }}">{{ state }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="city">City</label>
+          <select id="city" name="val11" required>
+            <option value="">-- Select city --</option>
+          </select>
+        </div>
+
+        <script>
           const cityStateData = {{ city_state_data | tojson }};
 
           const stateSelect = document.getElementById("state");
@@ -254,40 +598,43 @@
           });
         </script>
 
-      <!-- <div>
-        <label>Latitude</label>
-        <input type="number" min="20" max="67" step="0.0001" name="val8" required>
+        <!-- <div class="field">
+          <label>Latitude</label>
+          <input type="number" min="20" max="67" step="0.0001" name="val8" required>
+        </div>
+
+        <div class="field">
+          <label>Longitude</label>
+          <input type="number" min="-166" max="-66" step="0.0001" name="val9" required>
+        </div> -->
+
+        <!-- <div class="field">
+          <label>Merchant's latitude</label>
+          <input type="number" min="19" max="67" step="0.0001" name="val10" required>
+        </div>
+
+        <div class="field">
+          <label>Merchant's longitude</label>
+          <input type="number" min="-167" max="-66" step="0.0001" name="val11" required>
+        </div> -->
+
       </div>
 
-      <div>
-        <label>Longitude</label>
-        <input type="number" min="-166" max="-66" step="0.0001" name="val9" required>
-      </div> -->
-
-      <!-- <div>
-        <label>Merchant's latitude</label>
-        <input type="number" min="19" max="67" step="0.0001" name="val10" required>
+      <div class="actions">
+        <input type="submit" value="Perform fraud analysis">
       </div>
+    </form>
 
-      <div>
-        <label>Merchant's longitude</label>
-        <input type="number" min="-167" max="-66" step="0.0001" name="val11" required>
-      </div> -->
+    <div class="results-wrap">
+      {% if prediction_fraud is not none %}
+        <h3 class="result">Prediction for fraud: <strong>{{ pred_fraud }}</strong></h3>
+      {% endif %}
 
+      {% if prediction_type is not none %}
+        <h3 class="result">Prediction for type: <strong>{{ pred_type }}</strong></h3>
+      {% endif %}
     </div>
 
-    <div class="actions">
-      <input type="submit" value="Perform fraud analysis">
-    </div>
-  </form>
-
-  {% if prediction_fraud is not none %}
-    <h3 class="result">Prediction for fraud: {{ pred_fraud }}</h3>
-  {% endif %}
-
-  {% if prediction_type is not none %}
-    <h3 class="result">Prediction for type: {{ pred_type }}</h3>
-  {% endif %}
-
+  </div>
 </body>
 </html>
